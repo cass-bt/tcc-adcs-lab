@@ -71,9 +71,11 @@ sudo apt install -y \
 
 ### 2. VMware Workstation Pro
 
-Gratuito para uso pessoal desde 2024. Baixar do site da Broadcom:
+Gratuito para uso pessoal desde 2024. Página oficial do produto:
 
-<https://techdocs.broadcom.com/us/en/vmware-cis/desktop-hypervisors/workstation-pro.html>
+<https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion>
+
+O download direto do `.bundle` para Linux está no portal de suporte da Broadcom e exige conta gratuita: <https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware+Workstation+Pro>
 
 A instalação do `.bundle` exige `sudo`:
 
