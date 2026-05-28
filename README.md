@@ -34,10 +34,9 @@ Estas credenciais são apenas de laboratório isolado. Não use em ambiente real
 No host Linux (Kali ou similar):
 
 - **VMware Workstation Pro** (versão gratuita para uso pessoal, disponível desde 2024)
-- `vmware-vdiskmanager`, `vmware-networks`, `vmrun` no PATH (acompanham o Workstation)
-- `genisoimage` (Debian/Kali: `sudo apt install genisoimage`)
-- `certipy-ad` (`pip install certipy-ad` ou `sudo apt install certipy-ad`)
-- `netexec` (`sudo apt install netexec`)
+- `vmware-vdiskmanager`, `vmware-networks`, `vmrun`, `vmware-modconfig` no PATH (acompanham o Workstation)
+- `genisoimage`, `pipx`, `python3`, `base64`, `netcat`
+- `certipy-ad` e `netexec` (instalar via `pipx`, ver abaixo)
 - ~25 GB de espaço em disco para as 3 VMs
 
 ISOs Windows a baixar manualmente:
@@ -53,6 +52,83 @@ Salvar como:
 iso/win-server-2022-eval.iso
 iso/win11-eval.iso
 ```
+
+## Setup do host (Ubuntu/Debian/Kali)
+
+Testado no Kali Linux (rolling, kernel 6.19). Em Ubuntu 24.04 LTS e em Debian 12 deve funcionar com pequenas adaptações.
+
+### 1. Pacotes do sistema
+
+```bash
+sudo apt update
+sudo apt install -y \
+    build-essential linux-headers-$(uname -r) \
+    genisoimage pipx python3 netcat-openbsd \
+    git curl
+```
+
+`build-essential` e os `linux-headers` são necessários para o VMware compilar os módulos `vmnet`/`vmmon` do kernel durante a instalação.
+
+### 2. VMware Workstation Pro
+
+Gratuito para uso pessoal desde 2024. Baixar do site da Broadcom:
+
+<https://techdocs.broadcom.com/us/en/vmware-cis/desktop-hypervisors/workstation-pro.html>
+
+A instalação do `.bundle` exige `sudo`:
+
+```bash
+sudo sh VMware-Workstation-Full-*.bundle
+```
+
+Aceitar EULA. Selecionar "Personal Use" quando perguntado. Depois validar:
+
+```bash
+which vmware vmrun vmware-vdiskmanager vmware-networks vmware-modconfig
+# deve retornar os 5 caminhos em /usr/bin
+sudo vmware-modconfig --console --install-all
+# compila e instala os módulos do kernel
+```
+
+Se a compilação falhar (comum em Ubuntu com kernel novo), consultar a comunidade do Workstation Pro ou aplicar *patches* não-oficiais como `mkubecek/vmware-host-modules`.
+
+### 3. Ferramentas Python (certipy e netexec)
+
+Em distros recentes (Ubuntu 24+, Debian 12+, Kali), `pip install` global é bloqueado por PEP 668. Usar `pipx`:
+
+```bash
+pipx ensurepath
+pipx install certipy-ad
+pipx install netexec
+# fechar e reabrir o terminal para o PATH atualizar
+which certipy netexec
+# deve retornar ~/.local/bin/...
+```
+
+Validação:
+
+```bash
+certipy --version  # esperado: 5.0.4 ou superior
+netexec --version  # esperado: rolling
+```
+
+### 4. Checklist final antes de seguir para a Fase 1
+
+```bash
+# Cada comando abaixo deve retornar um caminho, sem erro:
+which vmware vmrun vmware-vdiskmanager vmware-networks vmware-modconfig
+which genisoimage certipy netexec python3
+
+# Módulos VMware carregados no kernel:
+lsmod | grep -E "vmnet|vmmon"
+# esperado: ambos listados
+
+# Estado da rede VMware:
+sudo vmware-networks --status
+# esperado: "All the services configured on all the networks are running"
+```
+
+Se algo falhar, resolver antes de continuar. O resto da automação (`gen-vmx.sh`, scripts PowerShell, scripts de ataque) assume que estes pré-requisitos estão atendidos.
 
 ## Estrutura
 
