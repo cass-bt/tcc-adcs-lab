@@ -1,0 +1,37 @@
+# ISOs Windows (baixar manualmente, ver 00-prereqs/README.md ou README principal)
+iso/
+*.iso
+
+# VMs e artefatos do VMware (gerados pelos scripts)
+vmware/
+*.vmdk
+*.vmem
+*.vmsd
+*.vmsn
+*.vmss
+*.vmxf
+*.nvram
+*.lck
+*.scoreboard
+vmware.log
+vmware-*.log
+*.vmx.bak.*
+
+# Autounattend gerados (XMLs e ISOs seed; regenerar com gen-autounattend.sh)
+01-autounattend/gerados/
+
+# Evidências dos ataques (gerados pelos scripts em 04-ataque/)
+# Contêm hashes NT, PFXs e ccache Kerberos do lab.
+evidencias/
+*.pfx
+*.ccache
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
