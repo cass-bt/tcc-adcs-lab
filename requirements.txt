@@ -1,0 +1,12 @@
+# Ferramentas Python instaladas no host Kali (agente ofensivo).
+# Instalar via pipx (NÃO pip install global, PEP 668 bloqueia em Ubuntu 24+/Debian 12+/Kali):
+#
+#     ./install-tools.sh
+#
+# ou manualmente:
+#
+#     pipx install certipy-ad==5.0.4
+#     pipx install netexec
+
+certipy-ad==5.0.4
+netexec

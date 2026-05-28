@@ -94,21 +94,18 @@ Se a compilação falhar (comum em Ubuntu com kernel novo), consultar a comunida
 
 ### 3. Ferramentas Python (certipy e netexec)
 
-Em distros recentes (Ubuntu 24+, Debian 12+, Kali), `pip install` global é bloqueado por PEP 668. Usar `pipx`:
+Em distros recentes (Ubuntu 24+, Debian 12+, Kali), `pip install` global é bloqueado por PEP 668. Usar `pipx`. As ferramentas estão listadas em `requirements.txt` e o script abaixo as instala:
 
 ```bash
-pipx ensurepath
-pipx install certipy-ad
-pipx install netexec
-# fechar e reabrir o terminal para o PATH atualizar
-which certipy netexec
-# deve retornar ~/.local/bin/...
+pipx ensurepath  # uma vez, garante ~/.local/bin no PATH
+./install-tools.sh
+# fechar e reabrir o terminal se acabar de rodar pipx ensurepath pela primeira vez
 ```
 
 Validação:
 
 ```bash
-certipy --version  # esperado: 5.0.4 ou superior
+certipy --version  # esperado: 5.0.4
 netexec --version  # esperado: rolling
 ```
 
