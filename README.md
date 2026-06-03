@@ -196,6 +196,9 @@ run_ps 10.10.10.11 03-windows/04-instalar-ca.ps1
 
 # 5. Criar e publicar os templates vulneráveis ESC1_TCC e ESC2_TCC
 run_ps 10.10.10.11 03-windows/05-criar-templates-vulneraveis.ps1
+
+# 6. Emitir o certificado do DC (sobe LDAPS na 636 e habilita PKINIT)
+run_ps 10.10.10.10 03-windows/06-emitir-cert-dc.ps1
 ```
 
 Ponto de checkpoint sugerido (snapshot `vuln-templates-ready`):

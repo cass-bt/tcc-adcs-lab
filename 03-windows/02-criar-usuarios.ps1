@@ -127,5 +127,6 @@ $dcCert = Get-ChildItem Cert:\LocalMachine\My | Where-Object { $_.Subject -like 
 if ($dcCert) {
     Write-Output "    Cert do DC instalado: $($dcCert.Subject)"
 } else {
-    Write-Output "    AVISO: nenhum cert encontrado em LocalMachine\\My. PKINIT pode falhar."
+    Write-Output "    (Esperado neste ponto: a CA ainda nao foi instalada. O certificado"
+    Write-Output "     definitivo do DC e emitido pelo passo 06-emitir-cert-dc.ps1, apos a CA.)"
 }
